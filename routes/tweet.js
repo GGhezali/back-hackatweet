@@ -19,7 +19,7 @@ router.post("/", (req, res) => {
     hashtagList: req.body.hashtagList,
   });
   newTweet.save().then((newDoc) => {
-    console.log(newDoc)
+    console.log(newDoc);
     res.json({ result: true, newDoc });
   });
 });
@@ -33,32 +33,34 @@ router.get("/", (req, res) => {
     res.json({ data });
   });
 });
-  
+
 //----------------------------------------------------------------------------
 
 /* POST add user in usersLike list */
 router.post("/addUserLike", (req, res) => {
-    const { username, content } = req.body;
+  const { currentUser, content } = req.body;
+
   Tweet.updateOne(
-    {content : content},
-    { $push: { usersLike: username } }
-    ).then((data) => {
-        console.log("data =>", data)      
-        res.json({ result: true });
-});
+    { content: content },
+    { $push: { usersLike: currentUser } }
+  ).then((data) => {
+    console.log("data =>", data);
+    res.json({ result: true });
+  });
 });
 
 //----------------------------------------------------------------------------
 
 /* POST remove user in usersLike list */
 router.post("/deleteUserLike", (req, res) => {
-    const { username, content } = req.body;
+  const { currentUser, content } = req.body;
+
   Tweet.updateOne(
-    {content : content},
-    { $pull: { usersLike: username } }
-    ).then((data) => {
-        res.json({ result: true });
-});
+    { content: content },
+    { $pull: { usersLike: currentUser } }
+  ).then((data) => {
+    res.json({ result: true });
+  });
 });
 
 //----------------------------------------------------------------------------//----------------------------------------------------------------------------
@@ -66,10 +68,9 @@ router.post("/deleteUserLike", (req, res) => {
 /* POST remove tweet */
 router.post("/deleteTweet", (req, res) => {
   const { content } = req.body;
-Tweet.deleteOne({content : content})
-  .then((data) => {    
-      res.json({ result: true });
-});
+  Tweet.deleteOne({ content: content }).then((data) => {
+    res.json({ result: true });
+  });
 });
 
 //----------------------------------------------------------------------------
