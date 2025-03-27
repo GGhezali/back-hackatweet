@@ -1,11 +1,13 @@
+require('../models/connection');
+
 var express = require('express');
 var router = express.Router();
 
-require('../models/connection');
 const User = require('../models/user');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 
+// POST /singup
 router.post('/signup', (req, res) => {
   if (req.body.firstname === "" || req.body.firstname === undefined ||
     req.body.username === "" || req.body.username === undefined ||
@@ -35,5 +37,23 @@ router.post('/signup', (req, res) => {
     }
   })
 });
+
+// POST /signin
+router.post('/signin', (req, res) => {
+  if (req.body.username === "" || req.body.username === undefined ||
+    req.body.password === "" || req.body.password === undefined) {
+      // Error if username or pwd is not defined or empty
+      res.json({ result: false, error: "Missing or empty fields" });
+      return
+  }
+  User.findOne({ username: req.body.username }).then(data => {
+      if (data && bcrypt.compareSync(req.body.password, data.password)) {
+        // Error if user is not found
+        res.json({ result: true });
+        } else {
+          res.json({ result: false, error: "User not found"});
+      }
+  })
+})
 
 module.exports = router;
