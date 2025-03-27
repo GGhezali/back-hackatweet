@@ -8,6 +8,9 @@ const Tweet = require('../models/tweet');
 
 
 //Route post
+router.post('/add', (req, res) => {
+    res.json({result: true})
+})
 
 //route get
 
