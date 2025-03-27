@@ -6,9 +6,11 @@ const router = express.Router();
 const moment = require("moment");
 const Tweet = require("../models/tweet");
 
+//----------------------------------------------------------------------------
+
 //Route post
 router.post("/", (req, res) => {
-  //Create new tweet
+  //Create add new tweet
   const newTweet = new Tweet({
     firstname: req.body.firstname,
     username: req.body.username,
@@ -42,6 +44,7 @@ router.post("/addUserLike", (req, res) => {
     {content : content},
     { $push: { usersLike: username } }
     ).then((data) => {
+        console.log("data =>", data)      
         res.json({ result: true });
 });
 });
@@ -61,6 +64,14 @@ router.post("/deleteUserLike", (req, res) => {
 
 //----------------------------------------------------------------------------//----------------------------------------------------------------------------
 
+/* POST remove tweet */
+router.post("/deleteTweet", (req, res) => {
+  const { content } = req.body;
+Tweet.deleteOne({content : content})
+  .then((data) => {    
+      res.json({ result: true });
+});
+});
 
 //----------------------------------------------------------------------------
 
