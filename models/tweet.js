@@ -9,6 +9,6 @@ const tweetSchema = mongoose.Schema({
     hashtagList: [String],
 })
 
-const Tweet = mongoose.model('tweets', tweetSchema);
+const Tweet = mongoose.model('tweet', tweetSchema);
 
 module.exports = Tweet;
