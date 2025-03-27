@@ -18,6 +18,7 @@ router.post("/", (req, res) => {
     hashtagList: req.body.hashtagList,
   });
   newTweet.save().then((newDoc) => {
+    console.log(newDoc)
     res.json({ result: true, newDoc });
   });
 });
@@ -31,8 +32,7 @@ router.get("/", (req, res) => {
     res.json({ data });
   });
 });
-  
-})
+
   
 //----------------------------------------------------------------------------
 
