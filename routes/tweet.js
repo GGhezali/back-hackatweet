@@ -75,4 +75,23 @@ router.post("/deleteTweet", (req, res) => {
 
 //----------------------------------------------------------------------------
 
+/* GET tweet by likes */
+router.get("/likes", (req, res) => {
+  Tweet.find().then((data) => {
+    let obj = {};
+    for (let tweet of data) {
+      if (tweet.usersLike.length > 0) {
+        if (Object.keys(obj).some((e) => e === tweet.username)) {
+          obj[tweet.username] += tweet.usersLike.length;
+        } else {
+          obj[tweet.username] = tweet.usersLike.length;
+        }
+      }
+    }
+    res.json({ obj });
+  });
+});
+
+//----------------------------------------------------------------------------
+
 module.exports = router;
