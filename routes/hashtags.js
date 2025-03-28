@@ -15,12 +15,14 @@ router.get("/", (req, res) => {
     
     let obj = {};
     for (let tweet of data){
+      if (tweet.hashtagList !== null) {
         for (let hashtag of tweet.hashtagList){
             if (Object.keys(obj).some((e) => e === hashtag)){
                 obj[hashtag] +=1;
             } else {
                 obj[hashtag] = 1;
             }
+          }
         }
     }
     
